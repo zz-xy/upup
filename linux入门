@@ -1,0 +1,59 @@
+ cd upup
+➜  upup mkdir data
+data         features.gff          match.gff    sc.gff       swxx.txt
+➜  upup mkdir data
+mkdir: data: File exists
+➜  upup mkdir -p data
+➜  upup ls
+data         features.gff           match.gff    sc.gff       swxx.txt
+➜  upup cd data
+➜  data ls
+➜  data cat <<END
+heredoc> a
+heredoc> b
+heredoc> c
+heredoc> END
+a
+b
+c        
+➜  data cat <<END >data/test.fa
+heredoc> >>SOX2
+heredoc> ACTGCAT
+heredoc> >>OCT4                 
+heredoc> ACGGGT
+heredoc> end
+heredoc> END
+zsh: no such file or directory: data/test.fa
+➜  upup cat <<END >test.fa
+heredoc> >SOX2
+heredoc> ACGTCGGCGGAGGGTGGSCGGGGGGGGAGAGGT
+heredoc> ACGATGAGGAGTAGGAGAGAGGAGG
+heredoc> >OCT4
+heredoc> ACGTAGGATGGAGGAGAGGGAGGGGGGAGGAGAGGAA
+heredoc> AGAGTAGAGAGA
+heredoc> end
+heredoc> END
+➜  upup ls -l
+total 46040
+-rw-r--r--  1 zhaolei  staff   5624114 10  1 18:12 features.gff
+-rw-r--r--  1 zhaolei  staff       793 10  1 15:44 match.gff
+-rw-r--r--  1 zhaolei  staff  17934030 10  1 15:42 sc.gff
+-rw-r--r--  1 zhaolei  staff         0 10  1 14:51 swxx.txt
+-rw-r--r--  1 zhaolei  staff       127 10  5 22:23 test.fa
+➜  upup cat test.fa
+>SOX2
+ACGTCGGCGGAGGGTGGSCGGGGGGGGAGAGGT
+ACGATGAGGAGTAGGAGAGAGGAGG
+>OCT4
+ACGTAGGATGGAGGAGAGGGAGGGGGGAGGAGAGGAA
+AGAGTAGAGAGA
+end
+➜  upup head -3 test.fa
+>SOX2
+ACGTCGGCGGAGGGTGGSCGGGGGGGGAGAGGT
+ACGATGAGGAGTAGGAGAGAGGAGG
+➜  upup head -n 3 test.fa
+>SOX2
+ACGTCGGCGGAGGGTGGSCGGGGGGGGAGAGGT
+ACGATGAGGAGTAGGAGAGAGGAGG
+➜  upup 
