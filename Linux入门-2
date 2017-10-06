@@ -174,17 +174,12 @@ end
 ACGTAGGATGGAGGAGAGGGAGGGGGGAGGAGAGGAA
 AGAGTAGAGAGA
 end
-➜  ehbio_project cut -f1-d'' ehbio.fa | tail 3
-cut: [-cf] list: illegal list value
-tail: 3: No such file or directory
 ➜  ehbio_project cut -f1-d'' ehbio.fa | tail -3
 cut: [-cf] list: illegal list value
 ➜  ehbio_project cut -f 1-d'' ehbio.fa | tail -3
 cut: [-cf] list: illegal list value
 ➜  ehbio_project cut -f 1 -d'' ehbio.fa | tail -3
 cut: bad delimiter
-➜  ehbio_project cut -f1-d'' ehbio.fa | tail -n 2
-cut: [-cf] list: illegal list value
-➜  ehbio_project cut -f 1 -d '' ehbio.fa | tail -2
-cut: bad delimiter
-➜  ehbio_project 
+➜  ehbio_project cut -f 1 -d' ' ehbio.fa | tail -n 2
+AGAGTAGAGAGA
+end
