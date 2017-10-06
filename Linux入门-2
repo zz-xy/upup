@@ -1,0 +1,130 @@
+Last login: Thu Oct  5 19:43:09 on ttys000
+➜  ~ ls
+360云盘             Google 云端硬盘     Public              桌面副本
+Applications        Library             edu                 百度云同步盘
+Desktop             Movies              ncbi
+Documents           Music               src
+Downloads           Pictures            upup
+➜  ~ cd upup
+➜  upup ls
+features.gff match.gff    sc.gff       swxx.txt     test.fa
+➜  upup less test.fa
+➜  upup mkdir data
+➜  upup cp test.fa data/
+➜  upup ls
+data         features.gff match.gff    sc.gff       swxx.txt     test.fa
+➜  upup cd data
+➜  data ls
+test.fa
+➜  data cd ..  
+➜  upup rm -r test.fa
+➜  upup ls
+data         features.gff match.gff    sc.gff       swxx.txt
+➜  upup less data
+data is a directory
+➜  upup cd
+➜  ~ clear
+➜  ~ cd upup
+➜  upup ls
+data         features.gff match.gff    sc.gff       swxx.txt
+➜  upup mkdir ehbio_project
+➜  upup ls*
+zsh: no matches found: ls*
+➜  upup ls *
+features.gff match.gff    sc.gff       swxx.txt
+
+data:
+test.fa
+
+ehbio_project:
+➜  upup cp data/test.fa ehbio_project/
+➜  upup ls *
+features.gff match.gff    sc.gff       swxx.txt
+
+data:
+test.fa
+
+ehbio_project:
+test.fa
+➜  upup mv data/test.fa data/first.fa
+➜  upup ls *
+features.gff match.gff    sc.gff       swxx.txt
+
+data:
+first.fa
+
+ehbio_project:
+test.fa
+➜  upup cd ehbio_project
+➜  ehbio_project ls
+test.fa
+➜  ehbio_project cp test.fa second.fa
+➜  ehbio_project ls
+second.fa test.fa
+➜  ehbio_project cp test.fa test2.fa
+➜  ehbio_project cp test.fa test3.fa 
+➜  ehbio_project cp test.fa test4.fa
+➜  ehbio_project ls
+second.fa test.fa   test2.fa  test3.fa  test4.fa
+➜  ehbio_project rename 'test''ehbio' test*.fa
+zsh: command not found: rename
+➜  ehbio_project rename 'test''ehbio'test*.fa 
+zsh: no matches found: testehbiotest*.fa
+➜  ehbio_project rename 'test''ehbio' test*.fa
+zsh: command not found: rename
+➜  ehbio_project R-name 'test''ehbio' test*.fa
+zsh: command not found: R-name
+➜  ehbio_project mv test*fa ehbio.fa
+usage: mv [-f | -i | -n] [-v] source target
+       mv [-f | -i | -n] [-v] source ... directory
+➜  ehbio_project mv test*fa ehbio*.fa
+zsh: no matches found: ehbio*.fa
+➜  ehbio_project ls
+second.fa test.fa   test2.fa  test3.fa  test4.fa
+➜  ehbio_project mv test.fa ehbio.fa
+➜  ehbio_project ls
+ehbio.fa  second.fa test2.fa  test3.fa  test4.fa
+➜  ehbio_project mv test ehbio
+mv: rename test to ehbio: No such file or directory
+➜  ehbio_project mv test2.fa ehbio2.fa
+➜  ehbio_project ln -s ehbio2.fa ../data
+➜  ehbio_project ls -l ../data/
+total 16
+lrwxr-xr-x  1 zhaolei  staff    9 10  6 10:57 ehbio2.fa -> ehbio2.fa
+-rw-r--r--  1 zhaolei  staff  127 10  6 10:02 first.fa
+➜  ehbio_project pwd
+/Users/zhaolei/upup/ehbio_project
+➜  ehbio_project ln -s /Users/zhaolei/upup/ehbio_project/ehbio2.fa ../cd
+➜  ehbio_project ls -l ../data/                                         
+total 16
+lrwxr-xr-x  1 zhaolei  staff    9 10  6 10:57 ehbio2.fa -> ehbio2.fa
+-rw-r--r--  1 zhaolei  staff  127 10  6 10:02 first.fa
+➜  ehbio_project ln -s /Users/zhaolei/upup/ehbio_project/ehbio2.fa ../data
+ln: ../data/ehbio2.fa: File exists
+➜  ehbio_project ln -fs `pwd`/ehbio2.fa ../data 
+➜  ehbio_project ls -l ../data/                                           
+total 16
+lrwxr-xr-x  1 zhaolei  staff   43 10  6 11:00 ehbio2.fa -> /Users/zhaolei/upup/ehbio_project/ehbio2.fa
+-rw-r--r--  1 zhaolei  staff  127 10  6 10:02 first.fa
+➜  ehbio_project cd
+➜  ~ ls
+360云盘             Google 云端硬盘     Public              桌面副本
+Applications        Library             edu                 百度云同步盘
+Desktop             Movies              ncbi
+Documents           Music               src
+Downloads           Pictures            upup
+➜  ~ cd upup
+➜  upup ls
+cd            ehbio_project match.gff     swxx.txt
+data          features.gff  sc.gff
+➜  upup rm cd
+➜  upup ls
+data          features.gff  sc.gff
+ehbio_project match.gff     swxx.txt
+➜  upup cd data
+➜  data ls
+ehbio2.fa first.fa
+➜  data cd ehbio2.fa
+cd: not a directory: ehbio2.fa
+➜  data less ehbio2.fa
+➜  data 
