@@ -1,0 +1,179 @@
+Linux学习-4.环境变量和可执行属性
+Last login: Fri Oct  6 16:25:23 on ttys000
+➜  ~ cd ~/upup
+➜  upup which cd 
+cd: shell built-in command
+➜  upup `which cd`
+zsh: command not found: cd:
+➜  upup cat <<END >run.sh
+heredoc> echo "I am a script created by ehbio"
+heredoc> END
+➜  upup ls -l run.sh
+-rw-r--r--  1 zhaolei  staff  38 10  8 11:25 run.sh
+➜  upup chmod 755 run.sh 
+➜  upup ls -l run.sh    
+-rwxr-xr-x  1 zhaolei  staff  38 10  8 11:25 run.sh
+➜  upup chmod o-x run.sh
+➜  upup ls -l run.sh    
+-rwxr-xr--  1 zhaolei  staff  38 10  8 11:25 run.sh
+➜  upup chmod g-x run.sh
+➜  upup ls -l run.sh    
+-rwxr--r--  1 zhaolei  staff  38 10  8 11:25 run.sh
+➜  upup chmod a-x run.sh
+➜  upup ls -l run.sh    
+-rw-r--r--  1 zhaolei  staff  38 10  8 11:25 run.sh
+➜  upup chmod a+x run.sh
+➜  upup ls -l run.sh    
+-rwxr-xr-x  1 zhaolei  staff  38 10  8 11:25 run.sh
+➜  upup run.sh
+zsh: command not found: run.sh
+➜  upup echo$PATH
+zsh: no such file or directory: echo/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/zhaolei/src/edirect:/Users/zhaolei/src/edirect:/Users/zhaolei/src/sratoolkit.2.8.2-mac64/bin
+➜  upup echo $PATH
+/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/zhaolei/src/edirect:/Users/zhaolei/src/edirect:/Users/zhaolei/src/sratoolkit.2.8.2-mac64/bin
+➜  upup export PATH=$PATH:/home/src
+➜  upup echo $PATH                 
+/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/zhaolei/src/edirect:/Users/zhaolei/src/edirect:/Users/zhaolei/src/sratoolkit.2.8.2-mac64/bin:/home/src
+➜  upup run.sh
+zsh: command not found: run.sh
+➜  upup bash run.sh
+I am a script created by ehbio
+
+Linux学习-5.管道、标准输入输出
+➜  upup #!/bin/bash
+➜  upup echo "I am std output"
+I am std output
+➜  upup unexisted_command
+zsh: command not found: unexisted_command
+➜  upup bash stdout_error.sh
+bash: stdout_error.sh: No such file or directory
+➜  upup cat <<END >stdout_error.sh
+heredoc> #!/bin/bash
+heredoc> echo "I am std output"
+heredoc> unexisted_command
+heredoc> END
+➜  upup bash stdout_error.sh
+I am std output
+stdout_error.sh: line 3: unexisted_command: command not found
+➜  upup bash stdout_error.sh > stdout_error.stdout
+stdout_error.sh: line 3: unexisted_command: command not found
+➜  upup cat stdout_error.stdout
+I am std output
+➜  upup bash stdout_error.sh > stdout_error.stdout 2 > stdout_error.stferr
+stdout_error.sh: line 3: unexisted_command: command not found
+➜  upup cat stdout_error.stferr
+I am std output
+➜  upup cat stdout_error.stdout                                           
+I am std output
+➜  upup bash stdout_error.sh > stdout_error.stdout 2> stdout_error.stferr 
+➜  upup cat stdout_error.stferr                                          
+stdout_error.sh: line 3: unexisted_command: command not found
+➜  upup cat stdout_error.stdout                                          
+I am std output
+➜  upup bash stdout_error.sh > stdout_error.stdout 2>&1                  
+➜  upup cat stdout_error.stdout                        
+I am std output
+stdout_error.sh: line 3: unexisted_command: command not found
+➜  upup echo "1 2 3" | tr ' ''\n'
+usage: tr [-Ccsu] string1 string2
+       tr [-Ccu] -d string1
+       tr [-Ccu] -s string1
+       tr [-Ccu] -ds string1 string2
+➜  upup echo "1 2 3" | tr ' ' '\n'
+1
+2
+3
+➜  upup cat <<END | diff - <(echo "1 2 3" | tr ' ' '\n')
+pipe heredoc> 2
+pipe heredoc> 3
+pipe heredoc> 4
+pipe heredoc> END
+0a1
+> 1
+3d3
+< 4
+➜  upup cat <<END > firstfile
+heredoc> 2
+heredoc> 3
+heredoc> 4
+heredoc> END
+➜  upup less firstfile
+➜  upup echo "1 2 3" | tr ' ' '\n' > secondfile
+➜  upup diff firstfile secondfile
+0a1
+> 1
+3d3
+< 4
+➜  upup echo "actg aaaaa cccccg" | tr ' ' '\n' | wc -l
+       3
+➜  upup echo "a b c" | tr ' ' '\n' | sed =
+1
+a
+2
+b
+3
+c
+➜  upup echo "a b c" | tr ' ' '\n' | sed = | sed 'N;s/\n/\t/'
+1ta
+2tb
+3tc
+➜  upup echo "a b c" | tr ' ' '\n' | sed = | sed 'N;s/ \n/\t /'
+1
+a
+2
+b
+3
+c
+➜  upup echo "a b c" | tr ' ' '\n' | sed = | sed 'N; s/\n/\t/' 
+1ta
+2tb
+3tc
+➜  upup echo "a b c" | tr ' ' '\n' | sed = | sed 'N ; s/\n/\t/'
+1ta
+2tb
+3tc
+➜  upup echo "a b c" | tr ' ' '\n' | sed = | sed 'N ; s /\n/\t/'
+sed: 1: "N ; s /\n/\t/": unterminated substitute pattern
+➜  upup echo "a b c" | tr ' ' '\n' | sed = | sed 'N ; s/\n /\t/'
+1
+a
+2
+b
+3
+c
+➜  upup echo "a b c" | tr ' ' '\n' | sed = | sed 'N ; s/\n/ \t/' 
+1 ta
+2 tb
+3 tc
+➜  upup echo "a b c" | tr ' ' '\n' | sed = | sed 'N;s/\n/ \t /'
+1 t a
+2 t b
+3 t c
+➜  upup echo "a b c" | tr ' ' '\n' | sed = | sed 'N;s/\n/ \ /' 
+1  a
+2  b
+3  c
+➜  upup echo "a b c" | tr ' ' '\n' | sed = | sed 'N;s/^/> /'  
+> 1
+a
+> 2
+b
+> 3
+c
+➜  upup echo "a b c" | tr ' ' '\n' | sed = | sed 'N;s/^/>/' 
+>1
+a
+>2
+b
+>3
+c
+➜  upup echo "actg aaaaa cccccg" | tr ' ' '\n' | sed= |sed 'N;s/^/>/'
+➜  upup echo "actg aaaaa cccccg" | tr ' ' '\n' | sed= | sed 'N;s/^/>/'
+➜  upup echo "actg aaaaa cccccg" | tr ' ' '\n' | sed = | sed 'N;s/^/>/'
+>1
+actg
+>2
+aaaaa
+>3
+cccccg
+➜  upup 
